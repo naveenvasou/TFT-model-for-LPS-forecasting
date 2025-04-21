@@ -148,3 +148,18 @@ lows_track["Z250"] = Z250
 lows_track["Z550"] = Z550
 lows_track["Z850"] = Z850
 
+# Extract Rainfall data
+print("GETTING Rainfall DATA...")
+RF = xr.open_dataset("era5/raw/RF_MD.nc")
+x_vals = RF['x'].values
+y_vals = RF['y'].values
+    
+x, y = np.meshgrid(x_vals, y_vals, indexing='ij')
+distance_from_center = np.sqrt(x**2 + y**2)
+circle_mask = distance_from_center <= 5
+circle_mask_da = xr.DataArray(circle_mask, dims=['x', 'y'], coords={'x': x_vals, 'y': y_vals})
+
+RF = RF['snap_tp'].where(circle_mask_da).mean(dim={'x','y'})
+
+MDs_track["RF"] = RF.values
+
