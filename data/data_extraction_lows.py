@@ -150,7 +150,7 @@ lows_track["Z850"] = Z850
 
 # Extract Rainfall data
 print("GETTING Rainfall DATA...")
-RF = xr.open_dataset("era5/raw/RF_MD.nc")
+RF = xr.open_dataset("era5/raw/RF_Lows.nc")
 x_vals = RF['x'].values
 y_vals = RF['y'].values
     
@@ -161,7 +161,7 @@ circle_mask_da = xr.DataArray(circle_mask, dims=['x', 'y'], coords={'x': x_vals,
 
 RF = RF['snap_tp'].where(circle_mask_da).mean(dim={'x','y'})
 
-MDs_track["RF"] = RF.values
+lows_track["RF"] = RF.values
 
-MDs_track.to_csv("processed/MDs_track_with_variable_data.csv")
+lows_track.to_csv("processed/Lows_track_with_variable_data.csv")
 
