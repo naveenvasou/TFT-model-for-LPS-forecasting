@@ -167,3 +167,6 @@ RF = RF['snap_tp'].where(circle_mask_da).mean(dim={'x','y'})
 
 MDs_track["RF"] = RF.values
 
+MDs_track.to_csv("processed/MDs_track_with_variable_data.csv")
+
+
